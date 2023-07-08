@@ -1,5 +1,29 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+    <div class="container p-0 m-0 w-100">
+    <div class="row row-cols-2 w-100 p-0 m-0">
+        <div class="col-3 p-0 m-0">
+            <nav class="sidebar text-center p-0 m-0">
+                <div class="sidebar-top"></div>
+                {% if user.is_authenticated %}
+                <div class="sidebar-element"><a class="nav-link" href="#"><h4 class="mt-3">{{ user.username }}</h4></a></div>
+                {% endif %}
+                <div class="sidebar-element"><h5 class="mt-3 text-secondary">Followers</h5></div>
+                <div class="sidebar-element"><h5 class="mt-3 text-secondary">Following</h5></div>
+            </nav>
+        </div>
+
+
+        <div class="col-9 p-0 m-0">
+            <div class="container w-100 p-0">
+            <div class="message-wall">
+            <p>Pipi</p>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
 {% endblock %}

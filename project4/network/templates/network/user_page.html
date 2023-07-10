@@ -1,0 +1,49 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <div class="container p-0 m-0 w-100">
+    <div class="row row-cols-2 w-100 p-0 m-0">
+        <div class="col-3 p-0 m-0">
+            <nav class="sidebar text-center p-0 m-0">
+
+        <!--image-->
+        <div class="sidebar-top">
+        {% if request.user.image %}
+        <img src="{{ request.user.image }}" class="user-show-image" alt="Not Found" onerror="">
+        {% else %}
+        {% load static %}
+       <img src="{% static 'network/no_image.png' %}" class="user-show-image" alt="Not Found" onerror="">
+       {% endif %}
+        </div>
+
+
+        <div class="sidebar-element">
+
+        <a class="nav-link" href="#"><h4 class="sidebar-username">{{ user.username }}</h4></a>
+        </div>
+
+
+        <div class="sidebar-element">
+            <h5 class="mt-3 text-secondary">Followers</h5>
+            <h4 class="mt-1">{{ user_followers }}</h4>
+        </div>
+        <div class="sidebar-element">
+            <h5 class="mt-3 text-secondary">Following</h5>
+            <h4 class="mt-1">{{ user_self_follows }}</h4>
+        </div>
+            </nav>
+        </div>
+
+
+        <div class="col-9 p-0 m-0">
+            <div class="container w-100 p-0">
+            <div class="message-wall">
+            <p>Pipi</p>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+{% endblock %}

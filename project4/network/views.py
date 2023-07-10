@@ -1,7 +1,8 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -14,6 +15,19 @@ def index(request):
         ''
     }
     return render(request, "network/index.html")
+
+
+@login_required
+def user_page_view(request, user_slug):
+    try:
+        curr_user = User.objects.get(slug=user_slug)
+    except ObjectDoesNotExist:
+        raise Http404
+    context = {
+        'user_followers': 0,
+        'user_self_follows': 0,
+    }
+    return render(request, 'network/user_page.html', context)
 
 
 def login_view(request):

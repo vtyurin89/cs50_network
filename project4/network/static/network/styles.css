@@ -20,7 +20,7 @@ header {
 
 /* Sidebar */
 .sidebar {
-    height: 500px;
+
     background-color: #ffffff;
     border: 1px solid lightgrey;
 
@@ -39,6 +39,23 @@ header {
 
 .sidebar-element:nth-child(n+2) {
     margin-top: -1px;
+}
+
+.user-show-image {
+    max-width: 130px;
+    max-height: 130px;
+    border-radius: 50%;
+    display: flex;
+    position: relative;
+    top: 60px;
+    border: 5px solid white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sidebar-username {
+    margin-top: 70px;
+    margin-bottom: 20px;
 }
 
 /* main part */

@@ -42,8 +42,7 @@ def user_page_view(request, user_slug):
 
     context = {
         'curr_user': curr_user,
-        'user_posts': user_posts,
-        'page_obj': page_object,
+        'page_object': page_object,
         'user_followers': 0,
         'user_self_follows': 0,
     }

@@ -99,11 +99,15 @@ main {
     padding-left: 30px;
     padding-right: 30px;
     padding-top: 30px;
-    padding-bottom: 30px;
+    padding-bottom: 15px;
     margin-top: 20px;
 }
 
 .username-link {
     text-decoration: none;
     color: inherit;
+}
+
+.wrapper span i:hover {
+    cursor: pointer;
 }

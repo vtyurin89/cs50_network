@@ -102,3 +102,8 @@ main {
     padding-bottom: 30px;
     margin-top: 20px;
 }
+
+.username-link {
+    text-decoration: none;
+    color: inherit;
+}

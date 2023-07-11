@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
@@ -31,10 +32,18 @@ def user_page_view(request, user_slug):
                 content=post_content,
             )
         return redirect('user_page_view', user_slug)
+
+    #pagination
     user_posts = Post.objects.filter(author=curr_user).order_by('-id')
+    pagination_range = 10
+    paginator = Paginator(user_posts, pagination_range)
+    page_number = request.GET.get("page")
+    page_object = paginator.get_page(page_number)
+
     context = {
         'curr_user': curr_user,
         'user_posts': user_posts,
+        'page_obj': page_object,
         'user_followers': 0,
         'user_self_follows': 0,
     }

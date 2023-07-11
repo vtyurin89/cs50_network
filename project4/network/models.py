@@ -4,6 +4,7 @@ from string import ascii_letters
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.shortcuts import reverse
 
 
 def create_username_slug(translated_username):
@@ -40,6 +41,9 @@ class User(AbstractUser):
             else:
                 self.slug = create_username_slug(self.username)
         return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('user_page_view', kwargs={'user_slug': self.slug})
 
 
 class Post(models.Model):

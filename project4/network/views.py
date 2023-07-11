@@ -3,10 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import User
+from .models import User, Post
 
 
 @login_required
@@ -23,7 +23,18 @@ def user_page_view(request, user_slug):
         curr_user = User.objects.get(slug=user_slug)
     except ObjectDoesNotExist:
         raise Http404
+    if request.method == 'POST':
+        if 'post_content' in request.POST and request.POST['post_content']:
+            post_content = request.POST['post_content']
+            new_post = Post.objects.create(
+                author=request.user,
+                content=post_content,
+            )
+        return redirect('user_page_view', user_slug)
+    user_posts = Post.objects.filter(author=curr_user).order_by('-id')
     context = {
+        'curr_user': curr_user,
+        'user_posts': user_posts,
         'user_followers': 0,
         'user_self_follows': 0,
     }

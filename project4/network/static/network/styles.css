@@ -4,6 +4,7 @@ html {
 
 body {
     background-color: #f2f2f2;
+    padding-bottom: 30px;
 }
 
 /* header */
@@ -42,8 +43,8 @@ header {
 }
 
 .user-show-image {
-    max-width: 130px;
-    max-height: 130px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
     display: flex;
     position: relative;
@@ -69,6 +70,35 @@ main {
 .message-wall {
     margin-left: 35px;
     min-height: 50vh;
+
+}
+
+.message-wall-write {
     background-color: #ffffff;
     border: 1px solid lightgrey;
+    min-height: 130px;
+    border-top: 5px solid orange;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.message-wall-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    margin-right: auto;
+}
+
+/* posts */
+
+.message-wall-post {
+    background-color: #ffffff;
+    border: 1px solid lightgrey;
+    min-height: 130px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-top: 20px;
 }

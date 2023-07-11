@@ -8,7 +8,7 @@
 
         <!--image-->
         <div class="sidebar-top">
-        {% if request.user.image %}
+        {% if curr_user.image %}
         <img src="{{ request.user.image }}" class="user-show-image" alt="Not Found" onerror="">
         {% else %}
         {% load static %}
@@ -19,7 +19,7 @@
 
         <div class="sidebar-element">
 
-        <a class="nav-link" href="#"><h4 class="sidebar-username">{{ user.username }}</h4></a>
+        <a class="nav-link" href="#"><h4 class="sidebar-username">{{ curr_user.username }}</h4></a>
         </div>
 
 
@@ -38,7 +38,73 @@
         <div class="col-9 p-0 m-0">
             <div class="container w-100 p-0">
             <div class="message-wall">
-            <p>Pipi</p>
+
+
+            <!-- write a post -->
+            {% if curr_user == request.user %}
+            <div class="message-wall-write container d-flex align-items-center">
+        {% if curr_user.image %}
+        <img src="{{ request.user.image }}" class="message-wall-image" alt="Not Found" onerror="">
+        {% else %}
+        {% load static %}
+       <img src="{% static 'network/no_image.png' %}" class="message-wall-image" alt="Not Found" onerror="">
+       {% endif %}
+            <button type="button" class="btn btn-success rounded-pill btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">New post</button>
+            </div>
+            {% endif %}
+
+                <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Write a post!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+                <form method="post">
+                    {% csrf_token %}
+              <div class="modal-body">
+                  <textarea class="form-control" id="exampleFormControlTextarea1" name="post_content" rows="3"></textarea>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Post</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Posts -->
+        {% if user_posts %}
+        {% for post in user_posts %}
+            <div class="message-wall-post container d-flex">
+                <div class="d-flex flex-start">
+                     {% if curr_user.image %}
+                    <img src="{{ request.user.image }}" class="message-wall-image" alt="Not Found" onerror="">
+                    {% else %}
+                    {% load static %}
+                   <img src="{% static 'network/no_image.png' %}" class="message-wall-image" alt="Not Found" onerror="">
+                   {% endif %}
+
+                     <div class="ms-3">
+                <h6 class="fw-bold mb-1">{{ post.author }}</h6>
+                <div class="d-flex align-items-center mb-3">
+                  <p class="mb-0">
+                    {{ post.timestamp }}
+                  </p>
+                </div>
+                <div class="mb-0">{{ post.content|linebreaks }}</div>
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+        {% endif %}
+
+
+
+
+
             </div>
             </div>
         </div>

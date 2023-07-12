@@ -80,6 +80,7 @@ main {
     border-top: 5px solid orange;
     padding-left: 30px;
     padding-right: 30px;
+    margin-bottom: 20px;
 }
 
 .message-wall-image {
@@ -100,7 +101,7 @@ main {
     padding-right: 30px;
     padding-top: 30px;
     padding-bottom: 15px;
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .username-link {

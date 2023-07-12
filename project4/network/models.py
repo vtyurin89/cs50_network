@@ -19,7 +19,6 @@ def create_username_slug(translated_username):
 class User(AbstractUser):
     image = models.URLField(null=True, blank=True, verbose_name='Profile image')
     slug = models.SlugField(max_length=300, db_index=True, unique=True, verbose_name='URL part (slug)')
-    followed = models.ManyToManyField('User', blank=True, related_name='follows')
     birthday = models.DateField(blank=True, null=True)
     hobbies = models.CharField(blank=True, null=True, max_length=250)
 
@@ -54,4 +53,10 @@ class Post(models.Model):
     liked = models.ManyToManyField('User', blank=True, related_name='liked_post')
 
 
+class Follow(models.Model):
+    user = models.ForeignKey('User', on_delete=models.PROTECT, related_name='follows')
+    follower = models.ForeignKey('User', on_delete=models.PROTECT, related_name='is_followed_by')
+    active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return f'{self.follower} follows {self.user}'

@@ -10,5 +10,9 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('author', 'content')
 
 
+class FollowAdmin(admin.ModelAdmin):
+    list_display = ('user', 'follower')
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Post, PostAdmin)
+admin.site.register(Follow, FollowAdmin)

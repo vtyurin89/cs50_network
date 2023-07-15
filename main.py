@@ -1,16 +1,27 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+numCourses = 2
+prerequisites = [[1,0]]
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def canFinish(numCourses, prerequisites):
+    course_dict = { course : [] for course in range(numCourses)}
+    check_set = set()
+    for course, prer in prerequisites:
+        course_dict[course].append(prer)
 
+    def dfs(course):
+        if not course_dict[course]:
+            return True
+        if course in check_set:
+            return False
+        check_set.add(course)
+        for item in course_dict[course]:
+            if not dfs(item): return False
+        check_set.remove(course)
+        course_dict[course] = []
+        return True
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    for course in range(numCourses):
+        if not dfs(course): return False
+    return True
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print(canFinish(numCourses, prerequisites))

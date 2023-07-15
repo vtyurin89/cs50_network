@@ -54,9 +54,8 @@ class Post(models.Model):
 
 
 class Follow(models.Model):
-    user = models.ForeignKey('User', on_delete=models.PROTECT, related_name='follows')
-    follower = models.ForeignKey('User', on_delete=models.PROTECT, related_name='is_followed_by')
-    active = models.BooleanField(default=True)
+    user = models.ForeignKey('User', on_delete=models.PROTECT, related_name='is_followed_by')
+    follower = models.ForeignKey('User', on_delete=models.PROTECT, related_name='is_following')
 
     def __str__(self):
         return f'{self.follower} follows {self.user}'

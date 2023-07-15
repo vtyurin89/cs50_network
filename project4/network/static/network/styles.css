@@ -94,6 +94,7 @@ main {
 /* posts */
 
 .message-wall-post {
+    list-style-type: none;
     background-color: #ffffff;
     border: 1px solid lightgrey;
     min-height: 130px;

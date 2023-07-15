@@ -14,10 +14,55 @@ from .models import User, Post, Follow
 
 @login_required
 def index(request):
+    all_posts = Post.objects.all().order_by('-id')
+
+    # pagination
+    pagination_range = 10
+    paginator = Paginator(all_posts, pagination_range)
+    page_number = request.GET.get("page")
+    page_object = paginator.get_page(page_number)
+
     context = {
-        ''
+        'page_object': page_object,
     }
-    return render(request, "network/index.html")
+    return render(request, "network/index.html", context)
+
+
+@login_required
+def following_posts(request):
+    following_posts = Post.objects.filter(author__in=User.objects.filter(is_followed_by__follower=request.user)).order_by('-id')
+
+    # pagination
+    pagination_range = 10
+    paginator = Paginator(following_posts, pagination_range)
+    page_number = request.GET.get("page")
+    page_object = paginator.get_page(page_number)
+
+    context = {
+        'page_object': page_object,
+    }
+    return render(request, "network/following.html", context)
+
+
+@login_required
+def edit_post(request, post_id):
+    try:
+        my_post = Post.objects.get(id=post_id, author=request.user)
+    except Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found!'}, status=404)
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        if data.get('content') is not None:
+            my_post.content = data['content']
+        my_post.save()
+        return HttpResponse(status=204)
+
+        # Email must be via GET or PUT
+    else:
+        return JsonResponse({
+        "error": "PUT request required."
+        }, status=400)
+
 
 
 @login_required
@@ -39,19 +84,17 @@ def user_page_view(request, user_slug):
 
         #follow/unfollow
         elif 'follow' in request.POST:
-            change_follow = Follow.objects.get_or_create(
+            change_follow = Follow.objects.create(
                 user=curr_user,
                 follower=request.user,
             )
-            change_follow[0].active = True
-            change_follow[0].save()
+            change_follow.save()
         elif 'unfollow' in request.POST:
             change_unfollow = Follow.objects.get(
                 user=curr_user,
                 follower=request.user,
             )
-            change_unfollow.active = False
-            change_unfollow.save()
+            change_unfollow.delete()
         return redirect('user_page_view', user_slug)
 
     #pagination
@@ -62,15 +105,10 @@ def user_page_view(request, user_slug):
     page_object = paginator.get_page(page_number)
 
     #info
-    user_followers = Follow.objects.filter(user=curr_user, active=True)
-    user_self_follows = Follow.objects.filter(follower=curr_user, active=True)
+    user_followers = Follow.objects.filter(user=curr_user)
+    user_self_follows = Follow.objects.filter(follower=curr_user)
     try:
         check_follow = user_followers.get(follower=request.user)
-        print(check_follow.active)
-        if check_follow and check_follow.active:
-            check_follow = True
-        else:
-            check_follow = False
     except ObjectDoesNotExist:
         check_follow = False
 

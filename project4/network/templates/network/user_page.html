@@ -6,7 +6,7 @@
 
         <!-- sidebar -->
         <div class="col-3 p-0 m-0">
-            <nav class="sidebar text-center p-0 m-0">
+            <nav class="sidebar text-center p-0 m-0 shadow-sm">
         <!--image-->
         <div class="sidebar-top">
         {% if curr_user.image %}
@@ -56,7 +56,7 @@
 
             <!-- write a post -->
             {% if user.is_authenticated and curr_user == user %}
-            <div class="message-wall-write container d-flex align-items-center">
+            <div class="message-wall-write container d-flex align-items-center shadow-sm">
         {% if curr_user.image %}
         <img src="{{ curr_user.image }}" class="message-wall-image" alt="Not Found" onerror="">
         {% else %}
@@ -92,38 +92,38 @@
         <!-- Posts -->
         {% if page_object %}
         {% for post in page_object %}
-            <div class="message-wall-post container d-flex justify-content-between">
-                <div class="d-flex flex-start" id="post_{{ post.id }}">
-                     {% if curr_user.image %}
-                    <img src="{{ curr_user.image }}" class="message-wall-image" alt="Not Found" onerror="">
+            <ul class="message-wall-post container d-flex justify-content-between shadow-sm">
+                <li class="d-flex flex-start w-100">
+                     {% if post.author.image %}
+                    <img src="{{ post.author.image }}" class="message-wall-image" alt="Not Found" onerror="">
                     {% else %}
                     {% load static %}
                    <img src="{% static 'network/no_image.png' %}" class="message-wall-image" alt="Not Found" onerror="">
                    {% endif %}
 
-                     <div class="ms-3">
-                     <a class="username-link" href="{{ curr_user.get_absolute_url }}"><h6 class="fw-bold mb-1">{{ post.author }}</h6></a>
+                     <div class="ms-3 w-100">
+                     <a class="username-link" href="{{ post.author.get_absolute_url }}"><h6 class="fw-bold mb-1">{{ post.author }}</h6></a>
                 <div class="d-flex align-items-center mb-3">
                   <p class="mb-0">
                     {{ post.timestamp }}
                   </p>
                 </div>
-                <div class="mb-0">{{ post.content|linebreaks }}</div>
+                <div class="mb-0" id="post_{{ post.id }}">{{ post.content|linebreaks }}</div>
                 </div>
-            </div>
+            </li>
 
 
             <!-- edit post -->
-            {% if curr_user == request.user %}
-            <div class="wrapper">
-                <span>
-            <i class="fa-regular fa-pen-to-square" id="edit_post_{{ post.id }}"></i>
+            {% if post.author == request.user %}
+            <li class="wrapper">
+                <span id="edit_post_{{ post.id }}">
+            <i class="fa-regular fa-pen-to-square"></i>
                 </span>
-            </div>
+            </li>
             {% endif %}
 
 
-            </div>
+            </ul>
         {% endfor %}
         {% endif %}
 

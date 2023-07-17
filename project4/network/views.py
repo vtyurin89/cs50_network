@@ -57,7 +57,7 @@ def edit_post(request, post_id):
         my_post.save()
         return HttpResponse(status=204)
 
-        # Email must be via GET or PUT
+        # Only PUT request!
     else:
         return JsonResponse({
         "error": "PUT request required."

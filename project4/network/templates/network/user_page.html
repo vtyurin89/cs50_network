@@ -1,6 +1,7 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
+
     <div class="container p-0 m-0 w-100">
     <div class="row row-cols-2 w-100 p-0 m-0">
 
@@ -116,8 +117,8 @@
             <!-- edit post -->
             {% if post.author == request.user %}
             <li class="wrapper">
-                <span id="edit_post_{{ post.id }}">
-            <i class="fa-regular fa-pen-to-square"></i>
+                <span>
+            <i id="edit_post_{{ post.id }}" class="fa-regular fa-pen-to-square"></i>
                 </span>
             </li>
             {% endif %}

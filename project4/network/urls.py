@@ -10,4 +10,5 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path('user/<slug:user_slug>', views.user_page_view, name='user_page_view'),
+    path('edit/<int:post_id>', views.edit_post, name='edit_post'),
 ]

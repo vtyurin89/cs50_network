@@ -113,3 +113,7 @@ main {
 .wrapper span i:hover {
     cursor: pointer;
 }
+
+.form-control {
+    white-space: pre-wrap;
+}

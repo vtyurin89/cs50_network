@@ -103,13 +103,23 @@
                    {% endif %}
 
                      <div class="ms-3 w-100">
-                     <a class="username-link" href="{{ post.author.get_absolute_url }}"><h6 class="fw-bold mb-1">{{ post.author }}</h6></a>
+                     <a class="username-link" href="{{ post.author.get_absolute_url }}"><h6 class="fw-bold mb-1" >{{ post.author }}</h6></a>
                 <div class="d-flex align-items-center mb-3">
                   <p class="mb-0">
                     {{ post.timestamp }}
                   </p>
                 </div>
                 <div class="mb-0" id="post_{{ post.id }}">{{ post.content|linebreaks }}</div>
+
+                <!-- likes -->
+                <div class="wrapper mb-3">
+                    {% if user in post.liked.all %}
+                    <span><i class="fa-solid fa-heart" id="like_post_{{ post.id }}" style="color: #a21515;"></i></span>
+                    {% else %}
+                    <span><i class="fa-regular fa-heart" id="like_post_{{ post.id }}"></i></span>
+                    {% endif %}
+                    {{ post.liked.count }}
+                </div>
                 </div>
             </li>
 

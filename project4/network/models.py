@@ -52,6 +52,12 @@ class Post(models.Model):
     visible = models.BooleanField(default=True)
     liked = models.ManyToManyField('User', blank=True, related_name='liked_post')
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "content": self.content,
+        }
+
 
 class Follow(models.Model):
     user = models.ForeignKey('User', on_delete=models.PROTECT, related_name='is_followed_by')

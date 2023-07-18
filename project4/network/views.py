@@ -56,11 +56,39 @@ def edit_post(request, post_id):
             my_post.content = data['content']
         my_post.save()
         return HttpResponse(status=204)
+    elif request.method == "GET":
+        return JsonResponse(my_post.serialize())
 
-        # Only PUT request!
+        # Only PUT or GET request!
     else:
         return JsonResponse({
-        "error": "PUT request required."
+        "error": "PUT or GET request required."
+        }, status=400)
+
+
+@login_required
+def like_post(request, post_id):
+    try:
+        my_post = Post.objects.get(id=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found!'}, status=404)
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        if data.get('set_like') is not None:
+            if request.user in my_post.liked.all():
+                my_post.liked.remove(request.user)
+                like_now = False
+            else:
+                my_post.liked.add(request.user)
+                like_now = True
+            my_post.save()
+            return JsonResponse({
+                "set_like": 'like_now',
+            }, status=204)
+    # Only PUT request!
+    else:
+        return JsonResponse({
+            "error": "PUT or GET request required."
         }, status=400)
 
 

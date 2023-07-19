@@ -1,6 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMloaded');
 
+/* Menu shows active page */
+const navItems = document.querySelectorAll('nav li a').forEach(link => {
+    if (!(link.className == 'dropdown-item' || link.className == 'nav-link active dropdown-toggle' || link.className == 'navbar-brand' || link.className == 'page-link' )) {
+    if(link.href == window.location.href) {
+    link.classList.add('active');
+    }
+    }
+})
+
+
 /* Edit post */
 document.querySelectorAll('[id^="edit_post_"]').forEach(link => {
 
@@ -16,7 +26,7 @@ document.querySelectorAll('[id^="edit_post_"]').forEach(link => {
         edit_div.innerHTML=`
         <form id='form_${name_post}'>
         <textarea class="form-control" rows='5' style="white-space: pre-wrap" id=textarea_${name_post}>${original_text}</textarea>
-        <button type="button" onclick='sendEdit("textarea_" + name_post)' value='put' id='button' class="btn btn-primary mt-3">Save</button>
+        <button type="button" onclick='sendEdit("textarea_" + name_post)' value='put' id='button' class="btn btn-success mt-3">Save</button>
         </form>
     `;
 
@@ -43,7 +53,7 @@ document.querySelectorAll('[id^="edit_post_"]').forEach(link => {
     });
     }
 }
-})
+});
 
 /* Like a post! */
 document.querySelectorAll('[id^="like_post_"]').forEach(like => {
@@ -60,7 +70,17 @@ document.querySelectorAll('[id^="like_post_"]').forEach(like => {
     })
     .then(response => response.json())
     .then(result => {
-        console.log(result['set_like']);
+        console.log(result['like_count']);
+        let likeCounter = document.getElementById("like_count_post_" + post_id);
+        if (result['set_like'] == false) {
+            like.style.removeProperty('color');
+            like.className = 'fa-regular fa-heart';
+            likeCounter.innerHTML= `${result['like_count']}`;
+        } else {
+        like.style.color = '#a21515';
+        like.className = 'fa-solid fa-heart';
+        likeCounter.innerHTML= `${result['like_count']}`;
+        }
     });
     }
 })
@@ -74,7 +94,7 @@ function getTokenFromCookie(token) {
 }
 
 
-/* Edit request to edit post */
+/* Send request to edit post, then change the post itself */
 function sendEdit(name_textarea) {
     let editTextareaText = document.getElementById(name_textarea).value;
     let id = name_textarea.split('textarea_post_')[1];

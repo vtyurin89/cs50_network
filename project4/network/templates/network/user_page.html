@@ -1,5 +1,7 @@
 {% extends "network/layout.html" %}
 
+{% block title %}My page{% endblock %}
+
 {% block body %}
 
     <div class="container p-0 m-0 w-100">
@@ -35,7 +37,7 @@
 
             <!-- follow and unfollow -->
             {% if user != curr_user %}
-                <form method="post">
+                <form method="post" class="m-0 p-0">
             <div class="sidebar-element d-flex align-items-center">
                 {% csrf_token %}
                 {% if check_follow %}
@@ -118,7 +120,7 @@
                     {% else %}
                     <span><i class="fa-regular fa-heart" id="like_post_{{ post.id }}"></i></span>
                     {% endif %}
-                    {{ post.liked.count }}
+                    <span id="like_count_post_{{ post.id }}">{{ post.liked.count }}</span>
                 </div>
                 </div>
             </li>

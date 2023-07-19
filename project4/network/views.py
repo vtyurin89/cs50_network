@@ -83,8 +83,9 @@ def like_post(request, post_id):
                 like_now = True
             my_post.save()
             return JsonResponse({
-                "set_like": 'like_now',
-            }, status=204)
+                "set_like": like_now,
+                "like_count": len(my_post.liked.all()),
+            })
     # Only PUT request!
     else:
         return JsonResponse({
